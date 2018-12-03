@@ -13,6 +13,6 @@ Blank HTML 5 Boilerplate with Gulp.js
 <b>Step 4.)</b> Open your project folder location in the terminal or cmd.</br>
 <b>Step 5.)</b> Now in your terminal run the following command ```npm install``` this command will install the dependencies needed.</br>
 <b>Step 6.)</b> Run the ```gulp``` command in your terminal for a list of commands our gulpfile can execute.</br>
-<b>Step 6.)</b> Running the ```gulp watch``` command in your terminal will watch our project for any change a do what needs to be done just like magic.</br>
+<b>Step 6.)</b> Running the ```gulp watch``` command in your terminal will watch our project for any changes and do what needs to be done just like magic.</br>
 # Thank You
 Thanks for using my HTML 5 Starter Pack, Happy Codding 😊
