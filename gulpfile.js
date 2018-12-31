@@ -1,45 +1,61 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const uglifycss = require('gulp-uglifycss');
-const uglify = require('gulp-uglify');
+const gulp = require("gulp");
+const browsersync = require('browser-sync').create();
 const imagemin = require('gulp-imagemin');
+const plumber = require("gulp-plumber");
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
 
-//Compile SASS
-gulp.task('sass', function () {
-  gulp.src('./source/sass/**/*.sass')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./build/assets/css'));
-});
+function browserSync(done) {
+    browsersync.init({
+        server: {
+            baseDir: './build/'
+        },
+        port: 3000
+    });
+    done();
+}
 
-//Minify SASS
-gulp.task('minifycss', function () {
-  return gulp.src('./build/assets/css/*.css')
-    .pipe(uglifycss())
-    .pipe(gulp.dest('./build/assets/css/'));
-});
+function browserSyncReload(done){
+    browsersync.reload();
+    done();
+}
 
-//Compress images
-gulp.task('compressimg', function () {
-  return gulp.src('./source/img/*')
+function images() {
+    return gulp.src('./source/img/**/*')
     .pipe(imagemin())
     .pipe(gulp.dest('./build/assets/img'));
-});
+}
 
-//Minify JS
-gulp.task('minifyjs', function () {
-  return gulp.src('./source/js/*.js')
+function css(){
+    return gulp.src('./source/sass/**/*.sass')
+    .pipe(plumber())
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(rename({
+        basename: 'main',
+        suffix: '.min'
+    }))
+    .pipe(gulp.dest('./build/assets/css'))
+    .pipe(browsersync.stream());
+}
+
+function scripts(){
+    return gulp.src('./source/js/*.js')
+    .pipe(plumber())
     .pipe(uglify())
-    .pipe(gulp.dest('./build/assets/js'));
-});
+    .pipe(gulp.dest('./build/assets/js'))
+    .pipe(browsersync.stream());
+}
 
-//Watch files
-gulp.task('watch', function () {
-  gulp.watch('./source/sass/**/*.sass', ['sass']);
-  gulp.watch('./build/assets/css/*.css', ['minifycss']);
-  gulp.watch('./source/js/*.js', ['minifyjs']);
-  gulp.watch('./source/img/*', ['compressimg']);
-});
+function watchFiles() {
+    gulp.watch('./source/sass/**/*', css);
+    gulp.watch('./source/js/**/*', scripts);
+    gulp.watch('./source/img/**/*', images);
+    gulp.watch('./build/**/*.html', browserSyncReload);
+}
 
-gulp.task('default', function(){
-  console.log('\n\n\n\n---------------------------------------------------\n| Gulp File by Cameron Lucas                      |\n| Siteit Solutions @ https://siteitsolutions.com/ |\n---------------------------------------------------\n\nCommands\nsass    (Compile SASS to CSS)\nminifycss    (Minify CSS Files)\ncompressimg    (Compress all images)\nminifyjs    (Minify JavaScript Files)\nwatch (Watches Everything *Recommended*)\n\n\n\n');
-});
+gulp.task('images', images);
+gulp.task('css', css);
+gulp.task('js', scripts);
+gulp.task('build', gulp.series(gulp.parallel(images, css, scripts)));
+gulp.task('watch', gulp.parallel(watchFiles, browserSync));

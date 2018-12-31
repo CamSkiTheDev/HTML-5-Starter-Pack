@@ -1,19 +1,27 @@
 {
-  "name": "html5_boilerplate",
-  "version": "1.0.0",
-  "description": "Blank HTML 5 Bolilerplate by Cameron Lucas",
+  "name": "html-5-starter-pack",
+  "version": "2.0.0",
+  "description": "HTML 5 Starter Pack",
   "main": "./build/index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Cameron Lucas @ Siteit Solutions",
-  "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "eslint": "^5.11.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "^3.2.1",
     "gulp-uglify": "^3.0.1",
     "gulp-uglifycss": "^1.1.0",
-    "gulp-imagemin": "^5.0.3"
+    "gulp-imagemin": "^5.0.3",
+    "browser-sync": "^2.7.11",
+    "gulp-plumber": "^1.2.1"
   },
-  "dependencies": {}
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cameron Lucas",
+  "license": "ISC"
 }
